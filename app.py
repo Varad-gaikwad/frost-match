@@ -239,6 +239,13 @@ def recommend_flavors(model, flavor_ratings_pairs, top_n=3):
     user_input = np.tile(new_user_vector, (len(candidate), 1))
     item_input = np.array([item_features_indexed.loc[f].values for f in candidate], dtype=np.float32)
 
+    st.write("===== MODEL INPUT DEBUG =====")
+    st.write("USER VECTOR:", new_user_vector)
+    st.write("CANDIDATES:", candidate)
+    st.write("ITEM INPUT:", item_input)
+    st.write("USER INPUT:", user_input)
+    st.write("============================")
+
     predictions = model.predict([user_input, item_input], verbose=0).flatten()
 
     global_min, global_max = jb.load('prediction_range.pkl')
