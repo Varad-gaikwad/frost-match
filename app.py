@@ -224,10 +224,10 @@ def recommend_flavors(model, flavor_ratings_pairs, top_n=3):
     st.write("CANDIDATES:")
     st.write(candidate)
 
+    
+    predictions = model.predict([user_input, item_input],verbose=0).flatten()
     st.write("RAW PREDICTIONS:")
     st.write(predictions)
-    predictions = model.predict([user_input, item_input],verbose=0).flatten()
-
 
     global_min, global_max = jb.load('prediction_range.pkl')
 
