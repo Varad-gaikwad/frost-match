@@ -15,22 +15,24 @@ item_features_indexed = item_features.set_index('flavor')#Sets the index to the 
 #%%
 def build_user_vector(flavor_rating_pair):
     total_weighted_vector = np.zeros(item_features_indexed.shape[1])
-    abs_weight = 0
+    total_abs_weight = 0
 
     for f, r in flavor_rating_pair:
         flavor_vec = item_features_indexed.loc[f].values
         weight = r - 3
+
         total_weighted_vector += flavor_vec * weight
         total_abs_weight += abs(weight)
 
-        if total_abs_weight == 0:
-           
+    if total_abs_weight == 0:
+        rating = np.mean(
+            [item_features_indexed.loc[f].values
+             for f, r in flavor_rating_pair],
+            axis=0
+        )
+    else:
+        rating = total_weighted_vector / total_abs_weight
 
-        # all ratings were neutral (3) — fall back to a simple average
-           rating = np.mean([item_features_indexed.loc[f].values for f, r in flavor_rating_pair], axis=0)
-        else:
-           rating = total_weighted_vector / total_abs_weight
-           
     return rating.astype(np.float32) #As tensorflow is required to have float32 values.
 
 
@@ -59,23 +61,44 @@ for uid in unique_users:
         user_vector[uid] = total_weighted_vector / total_abs_weight
 
 #Create X_user,X_item and Y to train the model.
-X_user_list=[]
-X_item_list=[]
-Y_list=[]
+X_user_list = []
+X_item_list = []
+Y_list = []
 
-for index,row in user_features.iterrows():
+for index, row in user_features.iterrows():
+
     uid = row['user_id']
-    flv = row['flavor']
-    rating = row['rating']
+    target_flavor = row['flavor']
+    target_rating = row['rating']
 
-    X_user_list.append(user_vector[uid])
-    X_item_list.append(item_features_indexed.loc[flv].values)
-    Y_list.append(rating)
+    # Get all ratings from this user EXCEPT the flavor
+    # that we are trying to predict
+    other_ratings = user_features[
+        (user_features['user_id'] == uid) &
+        (user_features['flavor'] != target_flavor)
+    ]
 
-# Convert to NumPy float32 arrays for tensorflow
+    flavor_rating_pairs = [
+        (r['flavor'], r['rating'])
+        for _, r in other_ratings.iterrows()
+    ]
+
+    # We need at least one other flavor to build the profile
+    if len(flavor_rating_pairs) == 0:
+        continue
+
+    user_vec = build_user_vector(flavor_rating_pairs)
+
+    item_vec = item_features_indexed.loc[target_flavor].values
+
+    X_user_list.append(user_vec)
+    X_item_list.append(item_vec)
+    Y_list.append(target_rating)
+
+
 X_user_train = np.array(X_user_list, dtype=np.float32)
 X_item_train = np.array(X_item_list, dtype=np.float32)
-y_train_intial = np.array(Y_list, dtype=np.float32)
+y_train_initial = np.array(Y_list, dtype=np.float32)
 
 
 # %%
@@ -115,7 +138,7 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
 # %%
 
 xu_train,xu_test,xi_train,xi_test,y_train,y_test= train_test_split(
-    X_user_train,X_item_train,y_train_intial, test_size=0.2, random_state=42
+    X_user_train,X_item_train,y_train_initial, test_size=0.2, random_state=42
 )
 
 early_stopping = tf.keras.callbacks.EarlyStopping(

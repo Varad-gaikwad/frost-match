@@ -198,45 +198,73 @@ def build_user_vector(flavor_rating_pair):
     for f, r in flavor_rating_pair:
         flavor_vec = item_features_indexed.loc[f].values
         weight = r - 3
+
         total_weighted_vector += flavor_vec * weight
         total_abs_weight += abs(weight)
 
-        if total_abs_weight == 0:
-           
-
-        # all ratings were neutral (3) — fall back to a simple average
-           rating = np.mean([item_features_indexed.loc[f].values for f, r in flavor_rating_pair], axis=0)
-        else:
-           rating = total_weighted_vector / total_abs_weight
+    if total_abs_weight == 0:
+        rating = np.mean(
+            [item_features_indexed.loc[f].values
+             for f, r in flavor_rating_pair],
+            axis=0
+        )
+    else:
+        rating = total_weighted_vector / total_abs_weight
 
     return rating.astype(np.float32)
 
 
 def recommend_flavors(model, flavor_ratings_pairs, top_n=3):
-    new_user_vector = build_user_vector(flavor_ratings_pairs)
 
-    flavors_list = [flavor for flavor, rating in flavor_ratings_pairs]
+    user_vector = build_user_vector(flavor_ratings_pairs)
+
+    rated_flavors = []
+    for flavor, rating in flavor_ratings_pairs:
+        rated_flavors.append(flavor)
+
     all_flavors = item_features_indexed.index.tolist()
+    candidates = []
+    for flavor in all_flavors:
+        if flavor not in rated_flavors:
+            candidates.append(flavor)
+    results = []
 
-    candidate = [f for f in all_flavors if f not in flavors_list]
+    for flavor in candidates:
+        flavor_vector = item_features_indexed.loc[flavor].values.astype(np.float32)
+        distance = np.linalg.norm(user_vector - flavor_vector)
+        results.append((flavor, distance))
+    results.sort(key=lambda x: x[1])
 
-    user_input = np.tile(new_user_vector, (len(candidate), 1))
-    item_input = np.array([item_features_indexed.loc[f].values for f in candidate], dtype=np.float32)
-    
-    predictions = model.predict([user_input, item_input],verbose=0).flatten()
+    distances = []
 
-    global_min, global_max = jb.load('prediction_range.pkl')
+    for flavor, distance in results:
+        distances.append(distance)
+    if len(distances) > 0:
+        max_distance = max(distances)
+        min_distance = min(distances)
 
-    if global_max != global_min:
-        predictions = 1 + 4 * ((predictions - global_min) / (global_max - global_min))
+        scores = []
+
+        for distance in distances:
+            if max_distance != min_distance:
+                score = 5 - 4 * (
+                    (distance - min_distance) /
+                    (max_distance - min_distance))
+            else:
+                score = 5
+            scores.append(score)
     else:
-        predictions = np.full_like(predictions, 3.0, dtype=np.float32)
-    predictions = np.clip(predictions, 1, 5)
+        scores = []
+    final_results = []
 
-    results = list(zip(candidate, predictions))
-    results.sort(key=lambda pair: pair[1], reverse=True)
+    for i in range(len(results)):
+        flavor = results[i][0]
+        score = scores[i]
 
-    return results[:top_n]
+        final_results.append((flavor, float(score)))
+    final_results.sort(key=lambda x: x[1], reverse=True)
+
+    return final_results[:top_n]
 
 
 # ============================================================
