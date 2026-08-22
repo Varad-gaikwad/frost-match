@@ -127,6 +127,7 @@ def load_system():
         # Keep only the exact columns the original model uses
         custom_flavors = custom_flavors[
             item_features_indexed.columns
+
         ]
 
         item_features_indexed = pd.concat(
@@ -139,14 +140,24 @@ def load_system():
 
 model, item_features_indexed = load_system()
 
-st.write("Chocolate features:")
-st.write(item_features_indexed.loc["Chocolate"])
+import hashlib
 
-st.write("Model input shape:")
-st.write(model.input_shape)
+def file_hash(path):
+    with open(path, "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()
 
-st.write("TensorFlow version:")
-st.write(tf.__version__)
+st.write("MODEL HASH:", file_hash("ice_cream_model.keras"))
+st.write("CSV HASH:", file_hash("ice_cream_flavors.csv"))
+
+st.write("TF VERSION:", tf.__version__)
+st.write("PANDAS VERSION:", pd.__version__)
+st.write("NUMPY VERSION:", np.__version__)
+
+st.write("MODEL INPUTS:", model.input_shape)
+st.write("MODEL OUTPUT:", model.output_shape)
+
+st.write("NUMBER OF FLAVORS:", len(item_features_indexed))
+st.write("FIRST 10 FLAVORS:", item_features_indexed.index.tolist()[:10])
 
 
 
