@@ -13,8 +13,9 @@ A neural network-based **collaborative filtering** recommender that predicts whi
 ###https://frostmatch.streamlit.app/
 
 
-<img width="1710" height="868" alt="image" src="https://github.com/user-attachments/assets/4089466b-41aa-421c-903c-346f60bce325" />
-<img width="1710" height="868" alt="image" src="https://github.com/user-attachments/assets/dda1a5b1-7e37-4141-89b6-ddda13573451" />
+<img width="1710" height="859" alt="image" src="https://github.com/user-attachments/assets/78edd19e-56c2-4a47-bde4-d0a1c30f88f9" />
+<img width="1710" height="859" alt="image" src="https://github.com/user-attachments/assets/24d68d71-47a8-470d-8eeb-d0049a1a6c2f" />
+
 
 
 
@@ -25,6 +26,8 @@ A neural network-based **collaborative filtering** recommender that predicts whi
 Rate 2 (or more) ice cream flavors, and FrostMatch predicts your top recommendations from flavors you haven't tried — using a **two-tower neural network** (separate user and item embedding networks) trained on real flavor-rating data, the same architecture used in production-grade recommender systems (e.g., YouTube, Netflix-style models).
 
 Unlike simple similarity-based recommenders, this model **learns** user and item embeddings from data via gradient descent, rather than relying on hand-crafted similarity rules.
+
+Also has a Dark mode(Midnight Velvet) and a Light mode(Summer Sorbet).
 
 ---
 
