@@ -7,7 +7,6 @@ import os
 
 
 
-
 # ============================================================
 # PAGE CONFIG
 # ============================================================
@@ -139,6 +138,15 @@ def load_system():
     return model, item_features_indexed
 
 model, item_features_indexed = load_system()
+
+st.write("Chocolate features:")
+st.write(item_features_indexed.loc["Chocolate"])
+
+st.write("Model input shape:")
+st.write(model.input_shape)
+
+st.write("TensorFlow version:")
+st.write(tf.__version__)
 
 
 
