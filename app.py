@@ -220,15 +220,25 @@ def recommend_flavors(model, flavor_ratings_pairs, top_n=3):
 
     user_input = np.tile(new_user_vector, (len(candidate), 1))
     item_input = np.array([item_features_indexed.loc[f].values for f in candidate], dtype=np.float32)
+    st.write("TF:", tf.__version__)
+    st.write("Keras:", tf.keras.__version__)
+    st.write("Backend:", tf.keras.backend.backend())
+    st.write("Devices:", tf.config.list_physical_devices())
+    st.write("Model dtype:", model.compute_dtype)
 
+    st.write("MODEL WEIGHTS CHECK")
 
-    predictions = model.predict(
-    [user_input, item_input],
-    verbose=0).flatten()
+    for i, weight in enumerate(model.get_weights()):
+       st.write(
+        i,
+        weight.shape,
+        float(np.min(weight)),
+        float(np.max(weight)),
+        float(np.mean(weight))
+    )
 
-    st.write("===== RAW MODEL PREDICTIONS =====")
-    st.write(predictions)
-    st.write("=================================")
+    predictions = model.predict([user_input, item_input],verbose=0).flatten()
+
 
     global_min, global_max = jb.load('prediction_range.pkl')
 
