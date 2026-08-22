@@ -140,24 +140,6 @@ def load_system():
 
 model, item_features_indexed = load_system()
 
-import hashlib
-
-def file_hash(path):
-    with open(path, "rb") as f:
-        return hashlib.sha256(f.read()).hexdigest()
-
-st.write("MODEL HASH:", file_hash("ice_cream_model.keras"))
-st.write("CSV HASH:", file_hash("ice_cream_flavors.csv"))
-
-st.write("TF VERSION:", tf.__version__)
-st.write("PANDAS VERSION:", pd.__version__)
-st.write("NUMPY VERSION:", np.__version__)
-
-st.write("MODEL INPUTS:", model.input_shape)
-st.write("MODEL OUTPUT:", model.output_shape)
-
-st.write("NUMBER OF FLAVORS:", len(item_features_indexed))
-st.write("FIRST 10 FLAVORS:", item_features_indexed.index.tolist()[:10])
 
 
 
@@ -239,14 +221,14 @@ def recommend_flavors(model, flavor_ratings_pairs, top_n=3):
     user_input = np.tile(new_user_vector, (len(candidate), 1))
     item_input = np.array([item_features_indexed.loc[f].values for f in candidate], dtype=np.float32)
 
-    st.write("===== MODEL INPUT DEBUG =====")
-    st.write("USER VECTOR:", new_user_vector)
-    st.write("CANDIDATES:", candidate)
-    st.write("ITEM INPUT:", item_input)
-    st.write("USER INPUT:", user_input)
-    st.write("============================")
 
-    predictions = model.predict([user_input, item_input], verbose=0).flatten()
+    predictions = model.predict(
+    [user_input, item_input],
+    verbose=0).flatten()
+
+    st.write("===== RAW MODEL PREDICTIONS =====")
+    st.write(predictions)
+    st.write("=================================")
 
     global_min, global_max = jb.load('prediction_range.pkl')
 
