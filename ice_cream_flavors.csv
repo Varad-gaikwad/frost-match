@@ -1,0 +1,66 @@
+flavor,sweetness,chocolate_content,fruity,nutty,creaminess,has_mix_ins,intensity,coldness,tartness,spice_warmth,floral_herbal,texture_smoothness
+Vanilla,7,0,0,0,9,0,3,8,0,0,0,10
+Chocolate,6,10,0,0,8,0,8,8,0,0,0,9
+Strawberry,8,0,10,0,7,0,5,8,2,0,0,9
+Coffee,5,2,0,0,8,0,8,7,0,0,0,9
+Mint Chocolate Chip,6,6,0,0,7,1,7,9,0,0,8,7
+Cookies and Cream,7,5,0,0,7,1,6,8,0,0,0,6
+Cookie Dough,8,4,0,0,8,1,6,8,0,0,0,5
+Salted Caramel,8,0,0,0,9,0,7,7,0,0,0,9
+Rocky Road,6,8,0,7,7,1,8,7,0,0,0,4
+Peanut Butter Cup,7,7,0,10,8,1,8,7,0,0,0,6
+Tiramisu,6,3,0,0,9,1,7,7,0,0,0,8
+Biscoff,8,3,0,0,8,1,7,7,0,2,0,6
+Dark Chocolate,5,10,0,0,8,1,9,8,0,0,0,8
+Hazelnut,6,4,0,9,8,0,7,7,0,0,0,9
+Red Velvet,7,6,0,0,8,1,7,7,0,0,0,7
+Birthday Cake,9,2,0,0,8,1,5,7,0,0,0,6
+Matcha Green Tea,4,0,0,0,7,0,6,8,1,0,9,9
+Lavender Honey,7,0,0,0,8,0,4,7,0,0,9,9
+Caramel Swirl,9,0,0,0,9,1,6,7,0,0,0,8
+Chocolate Fudge,6,10,0,0,8,1,9,8,0,0,0,7
+Blueberry Cheesecake,8,0,7,0,8,1,5,8,4,0,0,6
+Strawberry Cheesecake,8,0,8,0,8,1,6,8,3,0,0,6
+Peach,8,0,9,0,6,0,4,9,2,0,0,9
+Lemon Sorbet,7,0,9,0,2,0,5,10,9,0,0,10
+Mango Sorbet,9,0,10,0,3,0,6,10,2,0,0,10
+Watermelon Sorbet,9,0,10,0,2,0,3,10,1,0,0,10
+Orange Cream,8,0,8,0,7,0,5,8,3,0,0,9
+Pineapple,8,0,9,0,5,0,5,9,3,0,0,9
+Coconut,7,0,3,0,8,0,4,8,0,0,2,9
+Chocolate Almond,6,9,0,7,8,1,8,7,0,0,0,6
+Neapolitan,7,4,5,0,8,0,5,8,1,0,0,9
+Ferrero Rocher,7,8,0,7,8,1,8,7,0,0,0,6
+S'mores,8,7,0,0,7,1,7,7,0,2,0,4
+Custard,8,0,0,0,9,0,4,7,0,0,0,10
+Mango Alphonso,9,0,10,0,6,0,7,9,1,0,0,9
+Kesar (Saffron),7,0,0,2,8,0,6,7,0,3,7,9
+Pista (Pistachio),6,0,0,10,8,0,5,7,0,0,2,9
+Butterscotch,9,0,0,3,8,1,6,7,0,0,0,7
+Black Currant,7,0,8,0,6,0,6,8,5,0,0,8
+Kaju Draksh,7,0,3,8,8,1,5,7,0,0,0,7
+Tender Coconut,6,0,2,0,7,0,3,9,0,0,2,9
+Rose (Gulab),8,0,0,0,7,0,4,8,0,0,10,9
+Rajbhog,8,0,0,5,9,1,7,6,0,2,6,7
+Sitaphal (Custard Apple),8,0,7,0,7,0,5,8,0,0,0,9
+Anjeer (Fig),6,0,5,0,7,0,4,7,1,0,0,9
+Chikoo (Sapodilla),8,0,5,0,8,0,5,7,0,0,0,9
+Gulkand,9,0,0,0,7,0,5,7,0,0,10,8
+Litchi,8,0,9,0,5,0,5,9,1,0,3,9
+Guava,7,0,9,0,5,0,5,9,4,0,0,9
+Gajar Halwa,8,0,2,3,8,1,7,6,0,5,2,7
+Malai Kulfi,7,0,0,2,10,0,6,6,0,1,0,9
+Kesar Pista Kulfi,8,0,0,8,9,0,7,6,0,3,5,8
+Mango Kulfi,9,0,10,0,8,0,7,7,1,0,0,8
+Pan (Betel Leaf),6,0,0,0,5,1,8,7,0,0,9,8
+Thandai,7,0,0,3,7,0,7,8,0,6,6,9
+Jamun,6,0,8,0,5,0,7,9,7,0,0,9
+Aamras,10,0,10,0,5,0,8,9,0,0,0,9
+Rooh Afza,9,0,0,0,6,0,5,8,0,0,8,9
+Badam (Almond),6,0,0,10,8,0,5,7,0,0,0,9
+Elaichi (Cardamom),7,0,0,0,8,0,6,7,0,7,5,9
+Rabri,9,0,0,2,10,0,6,6,0,1,2,8
+Jackfruit,9,0,9,0,6,0,6,8,0,0,0,9
+Sweet Corn,7,0,2,0,6,0,4,7,0,0,0,9
+Tutti Frutti,9,0,7,0,6,1,4,8,1,0,0,6
+Dry Fruit,7,0,0,9,8,1,6,6,0,0,0,6

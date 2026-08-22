@@ -1,0 +1,7 @@
+# TensorFlow 2.16.2 requires protobuf < 5. Streamlit 1.62+ requires
+# protobuf >= 5, so those versions cannot be installed together.
+streamlit==1.38.0
+tensorflow==2.16.2
+pandas==2.2.2
+numpy==1.26.4
+joblib==1.4.2
