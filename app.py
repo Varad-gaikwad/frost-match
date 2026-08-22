@@ -1,5 +1,7 @@
 import streamlit as st
 import tensorflow as tf
+# Force TensorFlow to use CPU only
+tf.config.set_visible_devices([], 'GPU')
 import joblib as jb
 import pandas as pd
 import numpy as np
@@ -221,43 +223,7 @@ def recommend_flavors(model, flavor_ratings_pairs, top_n=3):
     user_input = np.tile(new_user_vector, (len(candidate), 1))
     item_input = np.array([item_features_indexed.loc[f].values for f in candidate], dtype=np.float32)
     
-    st.write("CANDIDATES:")
-    st.write(candidate)
-
-    
-    # ============================================================
-    # DEBUG: RAW MODEL PREDICTIONS
-    # ============================================================
-
-    st.write("USER INPUT SHAPE:", user_input.shape)
-    st.write("ITEM INPUT SHAPE:", item_input.shape)
-
-    st.write("USER INPUT FIRST ROW:")
-    st.write(user_input[0])
-
-    st.write("ITEM INPUT FIRST ROW:")
-    st.write(item_input[0])
-
-# Test model in two ways
-    pred_1 = model.predict(
-    [user_input, item_input],
-    verbose=0
-).flatten()
-
-    pred_2 = model(
-    [tf.constant(user_input), tf.constant(item_input)],
-    training=False
-).numpy().flatten()
-
-    st.write("PREDICT() FIRST 10:", pred_1[:10])
-    st.write("DIRECT MODEL() FIRST 10:", pred_2[:10])
-
-    st.write(
-    "PREDICT vs DIRECT DIFFERENCE:",
-    np.max(np.abs(pred_1 - pred_2))
-)
-
-    predictions = pred_1
+    predictions = model.predict([user_input, item_input],verbose=0).flatten()
 
     global_min, global_max = jb.load('prediction_range.pkl')
 
