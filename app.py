@@ -225,9 +225,39 @@ def recommend_flavors(model, flavor_ratings_pairs, top_n=3):
     st.write(candidate)
 
     
-    predictions = model.predict([user_input, item_input],verbose=0).flatten()
-    st.write("RAW PREDICTIONS:")
-    st.write(predictions)
+    # ============================================================
+    # DEBUG: RAW MODEL PREDICTIONS
+    # ============================================================
+
+    st.write("USER INPUT SHAPE:", user_input.shape)
+    st.write("ITEM INPUT SHAPE:", item_input.shape)
+
+    st.write("USER INPUT FIRST ROW:")
+    st.write(user_input[0])
+
+    st.write("ITEM INPUT FIRST ROW:")
+    st.write(item_input[0])
+
+# Test model in two ways
+    pred_1 = model.predict(
+    [user_input, item_input],
+    verbose=0
+).flatten()
+
+    pred_2 = model(
+    [tf.constant(user_input), tf.constant(item_input)],
+    training=False
+).numpy().flatten()
+
+    st.write("PREDICT() FIRST 10:", pred_1[:10])
+    st.write("DIRECT MODEL() FIRST 10:", pred_2[:10])
+
+    st.write(
+    "PREDICT vs DIRECT DIFFERENCE:",
+    np.max(np.abs(pred_1 - pred_2))
+)
+
+    predictions = pred_1
 
     global_min, global_max = jb.load('prediction_range.pkl')
 
